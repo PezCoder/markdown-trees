@@ -1,0 +1,22 @@
+{
+  "name": "markdown-trees",
+  "version": "1.0.0",
+  "description": "Create markdown trees effortlessly",
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PezCoder/markdown-trees.git"
+  },
+  "keywords": [
+    "markdown",
+    "trees",
+    "utf8"
+  ],
+  "author": "Rahul Gupta <rahul11061995@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/PezCoder/markdown-trees/issues"
+  },
+  "homepage": "https://github.com/PezCoder/markdown-trees#readme"
+}
