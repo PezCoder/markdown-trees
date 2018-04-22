@@ -1,13 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import DirectoryTree from './DirectoryTree.jsx';
+import { TreeProvider } from '../contexts/TreeContext.js';
 
 const App = function() {
   return (
-    <React.Fragment>
+    <TreeProvider>
       <h1>Welcome to Markdown-trees </h1>
-      <DirectoryTree />
-    </React.Fragment>
+      <section className="ui-tree">
+        <DirectoryTree />
+      </section>
+    </TreeProvider>
   );
 }
 

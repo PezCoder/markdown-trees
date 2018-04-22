@@ -1,24 +1,50 @@
 import React from 'react';
+import './DirectoryTree.scss';
+import TreeContext from '../contexts/TreeContext.js';
 
 class DirectoryTree extends React.Component {
-  renderTree(tree)
-  {
-    const composedTree;
-    for (node in tree) {
+  renderNode(node, addNode) {
+    return (
+      <React.Fragment key={node}>
+        <p>{ node }</p>
+        <button onClick={addNode}>+</button>
+      </React.Fragment>
+    );
+  }
+
+  renderTree(tree, addNode) {
+    let composedTree = [];
+    for (let node in tree) {
       if (tree[node] === null) {
-        composedTree += (
-          <p>{tree}</p>
+        composedTree.push(
+          this.renderNode(node, addNode)
         );
       } else if (typeof tree[node] === "object") {
-        <DirectoryTree tree={tree[node]}
+        composedTree.push(
+          <React.Fragment key={node}>
+            { this.renderNode(node) }
+            <DirectoryTree tree={tree[node]} />
+          </React.Fragment>
+        );
+      } else {
+        throw new Error('tree node must either be null or an object {}');
       }
     }
+
+    return composedTree;
   }
 
   render() {
-    const tree = this.props.tree;
     return (
-      { this.renderTree(tree) }
+      <TreeContext.Consumer>
+        {({ tree, addNode }) => (
+          <section className="each-subtree">
+            { this.renderTree(tree, addNode) }
+          </section>
+        )}
+      </TreeContext.Consumer>
     );
   }
 }
+
+export default DirectoryTree;
