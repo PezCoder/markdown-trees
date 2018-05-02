@@ -11,6 +11,7 @@ export class TreeProvider extends React.Component {
     this.state = {
       tree: initialTreeState,
       addNode: this.addNode.bind(this),
+      renameNode: this.renameNode.bind(this),
     };
   }
 
@@ -28,28 +29,44 @@ export class TreeProvider extends React.Component {
     pathToAdd: 'parent/child' represents node needs to be added under parent[child] object
   */
   addNode(pathToAdd, node) {
+    const treeWithNewNode = this.recurseThroughPath(pathToAdd, lastNode => ({
+      [lastNode]: {
+        [node]: null,
+      },
+    }));
+
     this.setState({
-      'tree': this.getNewNodeOnPath(pathToAdd, node),
+      'tree': treeWithNewNode,
     });
   }
 
-  getNewNodeOnPath(path, node) {
+  renameNode(pathToAdd, node) {
+    const treeWithRenamedNode = this.recurseThroughPath(pathToAdd, lastNode => ({
+      [node]: null,
+    }));
+
+    this.setState({
+      'tree': treeWithRenamedNode,
+    });
+  }
+
+  // Recurses through the path, creates a object while doing so
+  // breakingConditionCallback: function that gets executed on the last
+  // node in the path, that gives handle to the calling function to decide
+  // what to do with the last node
+  recurseThroughPath(path, breakingConditionCallback) {
     const indexOfSeparator = path.indexOf('/');
 
     // breaking condition
     if (indexOfSeparator === -1) {
-      return {
-        [path]: {
-          [node]: null,
-        },
-      };
+      return breakingConditionCallback(path);
     }
 
     const leftHalf = path.substring(0, indexOfSeparator);
     const rightHalf = path.substring(indexOfSeparator + 1, path.length);
 
     return {
-      [leftHalf]: this.getNewNodeOnPath(rightHalf, node),
+      [leftHalf]: this.recurseThroughPath(rightHalf, breakingConditionCallback),
     };
   }
 
