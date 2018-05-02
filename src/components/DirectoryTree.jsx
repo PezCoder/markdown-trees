@@ -1,29 +1,31 @@
 import React from 'react';
 import './DirectoryTree.scss';
-import TreeContext from '../contexts/TreeContext.js';
 
 class DirectoryTree extends React.Component {
-  renderNode(node, addNode) {
+  renderNode(node, addNode, key) {
     return (
-      <React.Fragment key={node}>
-        <p>{ node }</p>
-        <button onClick={addNode}>+</button>
-      </React.Fragment>
+      <p key={key}>
+        { node }
+        <button onClick={() => addNode(key, node)}>+</button>
+      </p>
     );
   }
 
-  renderTree(tree, addNode) {
+  renderTree() {
+    const {tree, addNode, parentKey} = this.props;
     let composedTree = [];
+
     for (let node in tree) {
+      const nodeKey = node + (parentKey ? '/' + parentKey : '');
       if (tree[node] === null) {
         composedTree.push(
-          this.renderNode(node, addNode)
+          this.renderNode(node, addNode, nodeKey)
         );
       } else if (typeof tree[node] === "object") {
         composedTree.push(
-          <React.Fragment key={node}>
-            { this.renderNode(node) }
-            <DirectoryTree tree={tree[node]} />
+          <React.Fragment key={nodeKey}>
+            { this.renderNode(node, addNode, nodeKey) }
+            <DirectoryTree {...this.props} tree={tree[node]} parentKey={nodeKey} />
           </React.Fragment>
         );
       } else {
@@ -36,13 +38,9 @@ class DirectoryTree extends React.Component {
 
   render() {
     return (
-      <TreeContext.Consumer>
-        {({ tree, addNode }) => (
-          <section className="each-subtree">
-            { this.renderTree(tree, addNode) }
-          </section>
-        )}
-      </TreeContext.Consumer>
+      <section className="each-subtree">
+        { this.renderTree() }
+      </section>
     );
   }
 }

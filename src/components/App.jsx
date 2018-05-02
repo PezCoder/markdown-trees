@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import DirectoryTree from './DirectoryTree.jsx';
+import DirectoryTreeContainer from './DirectoryTreeContainer.jsx';
 import { TreeProvider } from '../contexts/TreeContext.js';
 
 const App = function() {
@@ -8,7 +8,7 @@ const App = function() {
     <TreeProvider>
       <h1>Welcome to Markdown-trees </h1>
       <section className="ui-tree">
-        <DirectoryTree />
+        <DirectoryTreeContainer />
       </section>
     </TreeProvider>
   );

@@ -10,12 +10,47 @@ export class TreeProvider extends React.Component {
     super();
     this.state = {
       tree: initialTreeState,
-      addNode: this.addNode,
+      addNode: this.addNode.bind(this),
     };
   }
 
-  addNode() {
-    console.log('adding node');
+  /*
+   Function uses the pathToAdd to find where the new node needs to be added
+
+   For example:
+   {
+      parent: {
+        child: null,
+      }
+    }
+
+    pathToAdd: 'parent' represents node needs to be added under parent object
+    pathToAdd: 'parent/child' represents node needs to be added under parent[child] object
+  */
+  addNode(pathToAdd, node) {
+    this.setState({
+      'tree': this.getNewNodeOnPath(pathToAdd, node),
+    });
+  }
+
+  getNewNodeOnPath(path, node) {
+    const indexOfSeparator = path.indexOf('/');
+
+    // breaking condition
+    if (indexOfSeparator === -1) {
+      return {
+        [path]: {
+          [node]: null,
+        },
+      };
+    }
+
+    const leftHalf = path.substring(0, indexOfSeparator);
+    const rightHalf = path.substring(indexOfSeparator + 1, path.length);
+
+    return {
+      [leftHalf]: this.getNewNodeOnPath(rightHalf, node),
+    };
   }
 
   render() {
