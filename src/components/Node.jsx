@@ -9,7 +9,6 @@ export default class Node extends React.Component {
       name: this.isNodePlaceholder(props.node) ? '' : props.node,
       submitted: this.isNodePlaceholder(props.node) ? false : true,
     };
-    console.log('initial state',this.state);
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -20,7 +19,6 @@ export default class Node extends React.Component {
   }
 
   handleChange(event) {
-    console.log(event.target.value);
     this.setState({ name: event.target.value });
   }
 
@@ -35,10 +33,10 @@ export default class Node extends React.Component {
 
     if (this.state.submitted) {
       return (
-        <React.Fragment>
+        <div className="each-node">
           { node }
           <button onClick={() => addNode(nodePath, '__PLACEHOLDER__')}>+</button>
-        </React.Fragment>
+        </div>
       );
     }
 

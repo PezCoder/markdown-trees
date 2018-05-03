@@ -1,4 +1,6 @@
 import React from 'react';
+import deepmerge from 'deepmerge';
+import { unset } from 'lodash';
 
 const initialTreeState = {
   '.': null,
@@ -35,18 +37,80 @@ export class TreeProvider extends React.Component {
       },
     }));
 
+    /*
+      Why deepmerge ?
+      setState() does a shallow merging of object & not deep
+      for ex:
+      State Tree:
+      {
+        a: {
+          b: null,
+        }
+      }
+
+      For addNode('a','c');
+      treeWithNewNode will be:
+      {
+        a: {
+          c: null,
+        }
+      }
+
+      calling setState(treeWithNewNode) directly will result in losing node b i.e
+      It'll replace the whole a key's value with whatever is present in treeWithNewNode
+    */
     this.setState({
-      'tree': treeWithNewNode,
+      'tree': deepmerge(this.state.tree, treeWithNewNode),
     });
   }
 
-  renameNode(pathToAdd, node) {
-    const treeWithRenamedNode = this.recurseThroughPath(pathToAdd, lastNode => ({
-      [node]: null,
-    }));
+  /*
+    Renames a node, this is done in two steps:
+    1. Clone the node that needs to be renamed by the new name as a sibling
+    2. Delete the node that needs to be renamed
+
+    For ex:
+    State tree:
+    {
+      a: {
+        b: null/object,
+      }
+    }
+
+    renameNode('a/b', z)
+
+    State of tree after Point 1:
+    {
+      a: {
+        b: null/object,
+        z: null/object,
+      }
+    }
+
+    State of tree after Point 2:
+    {
+      a: {
+        z: null/object,
+      }
+    }
+  */
+  renameNode(pathToRename, node) {
+    const treeWithNewRenamedNode = this.recurseThroughTree(
+      this.state.tree,
+      pathToRename,
+      ( treeNode, lastNode ) => ({
+        // if renaming a non-leaf tree node, maintain it's child heirarchy
+        // else set it to null
+        [node]: treeNode ? treeNode : null,
+      })
+    );
+
+    const stateTreeWithRenamedNode = deepmerge(this.state.tree, treeWithNewRenamedNode);
+    const pathsArray = pathToRename.split('/');
+    unset(stateTreeWithRenamedNode, pathToRename.split('/'));
 
     this.setState({
-      'tree': treeWithRenamedNode,
+      'tree': stateTreeWithRenamedNode,
     });
   }
 
@@ -67,6 +131,26 @@ export class TreeProvider extends React.Component {
 
     return {
       [leftHalf]: this.recurseThroughPath(rightHalf, breakingConditionCallback),
+    };
+  }
+
+  recurseThroughTree(tree, path, breakingConditionCallback) {
+    const indexOfSeparator = path.indexOf('/');
+
+    // breaking condition
+    if (indexOfSeparator === -1) {
+      return breakingConditionCallback(tree[path], path);
+    }
+
+    const leftHalf = path.substring(0, indexOfSeparator);
+    const rightHalf = path.substring(indexOfSeparator + 1, path.length);
+
+    return {
+      [leftHalf]: this.recurseThroughTree(
+        tree[leftHalf],
+        rightHalf,
+        breakingConditionCallback
+      ),
     };
   }
 

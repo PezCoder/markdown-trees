@@ -21,6 +21,8 @@
   },
   "homepage": "https://github.com/PezCoder/markdown-trees#readme",
   "dependencies": {
+    "deepmerge": "^2.1.0",
+    "lodash": "^4.17.10",
     "react": "^16.3.1",
     "react-dom": "^16.3.1",
     "treeify": "^1.1.0"
