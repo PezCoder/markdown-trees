@@ -5,19 +5,19 @@ import './DirectoryTree.scss';
 
 class DirectoryTree extends React.Component {
   renderTree() {
-    const {tree, addNode, renameNode, parentKey} = this.props;
+    const {tree, parentKey} = this.props;
     let composedTree = [];
 
     for (let node in tree) {
       const nodeKey = (parentKey ? parentKey + '/' : '') + node;
       if (tree[node] === null) {
         composedTree.push(
-          <Node key={nodeKey} nodePath={nodeKey} node={node} addNode={addNode} renameNode={renameNode} />
+          <Node key={nodeKey} nodePath={nodeKey} node={node} />
         );
       } else if (typeof tree[node] === "object") {
         composedTree.push(
           <React.Fragment key={nodeKey}>
-            <Node key={nodeKey} nodePath={nodeKey} node={node} addNode={addNode} renameNode={renameNode} />
+            <Node key={nodeKey} nodePath={nodeKey} node={node} />
             <DirectoryTree {...this.props} tree={tree[node]} parentKey={nodeKey} />
           </React.Fragment>
         );

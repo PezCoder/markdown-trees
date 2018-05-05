@@ -1,21 +1,22 @@
 import React from 'react';
+import TreeContext from '../contexts/TreeContext.js';
 
-export default class Node extends React.Component {
+class Node extends React.Component {
   constructor(props) {
     super(props);
 
-    this.placeholderNode = '__PLACEHOLDER__';
+    this.editingNode = '--editing--';
     this.state = {
-      name: this.isNodePlaceholder(props.node) ? '' : props.node,
-      submitted: this.isNodePlaceholder(props.node) ? false : true,
+      name: this.isNodeEditing(props.node) ? '' : props.node,
+      submitted: this.isNodeEditing(props.node) ? false : true,
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  isNodePlaceholder(node) {
-    return node === this.placeholderNode;
+  isNodeEditing(node) {
+    return node === this.editingNode;
   }
 
   handleChange(event) {
@@ -29,13 +30,14 @@ export default class Node extends React.Component {
   }
 
   render() {
-    const { nodePath, node, addNode } = this.props;
+    const { nodePath, node, addNode, deleteNode } = this.props;
 
     if (this.state.submitted) {
       return (
         <div className="each-node">
           { node }
-          <button onClick={() => addNode(nodePath, '__PLACEHOLDER__')}>+</button>
+          <button onClick={() => addNode(nodePath, this.editingNode)}>+</button>
+          <button onClick={() => deleteNode(nodePath)}>❌</button>
         </div>
       );
     }
@@ -51,3 +53,11 @@ export default class Node extends React.Component {
     );
   }
 };
+
+export default props => (
+  <TreeContext.Consumer>
+    {({ addNode, renameNode, deleteNode }) => (
+      <Node {...props} addNode={addNode} renameNode={renameNode} deleteNode={deleteNode} />
+    )}
+  </TreeContext.Consumer>
+);

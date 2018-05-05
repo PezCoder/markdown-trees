@@ -1,6 +1,6 @@
 import React from 'react';
 import deepmerge from 'deepmerge';
-import { unset } from 'lodash';
+import { unset, cloneDeep } from 'lodash';
 
 const initialTreeState = {
   '.': null,
@@ -14,6 +14,7 @@ export class TreeProvider extends React.Component {
       tree: initialTreeState,
       addNode: this.addNode.bind(this),
       renameNode: this.renameNode.bind(this),
+      deleteNode: this.deleteNode.bind(this),
     };
   }
 
@@ -106,11 +107,19 @@ export class TreeProvider extends React.Component {
     );
 
     const stateTreeWithRenamedNode = deepmerge(this.state.tree, treeWithNewRenamedNode);
-    const pathsArray = pathToRename.split('/');
     unset(stateTreeWithRenamedNode, pathToRename.split('/'));
 
     this.setState({
       'tree': stateTreeWithRenamedNode,
+    });
+  }
+
+  deleteNode(pathToDelete) {
+    const treeWithDeletedNode = cloneDeep(this.state.tree);
+    unset(treeWithDeletedNode, pathToDelete.split('/'));
+
+    this.setState({
+      'tree': treeWithDeletedNode,
     });
   }
 
