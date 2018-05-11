@@ -1,6 +1,35 @@
+@import './variables.scss';
 * {
     margin: 0;
     padding: 0;
+}
+
+body {
+    font-family: 'Righteous', cursive;
+    background-color: $floral-white;
+    padding: 50px;
+    border-top: 10px solid $brown;
+
+    // temporary
+    height: 100vh;
+}
+
+header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: left;
+
+    .main-heading {
+        color: $brown;
+        font-size: 50px;
+        font-weight: 300;
+        // width: 80%;
+    }
+
+    img {
+        float: right;
+    }
 }
 
 .ui-tree {
