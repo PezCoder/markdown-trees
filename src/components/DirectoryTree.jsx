@@ -12,12 +12,12 @@ class DirectoryTree extends React.Component {
       const nodeKey = (parentKey ? parentKey + '/' : '') + node;
       if (tree[node] === null) {
         composedTree.push(
-          <Node key={nodeKey} nodePath={nodeKey} node={node} />
+          <Node key={nodeKey} nodePath={nodeKey} node={node} type="file" />
         );
       } else if (typeof tree[node] === "object") {
         composedTree.push(
           <React.Fragment key={nodeKey}>
-            <Node key={nodeKey} nodePath={nodeKey} node={node} />
+            <Node key={nodeKey} nodePath={nodeKey} node={node} type="folder" />
             <DirectoryTree {...this.props} tree={tree[node]} parentKey={nodeKey} />
           </React.Fragment>
         );

@@ -37,14 +37,20 @@ class Node extends React.Component {
   }
 
   render() {
-    const { nodePath, node, addNode, deleteNode } = this.props;
+    const { nodePath, node, addNode, deleteNode, type } = this.props;
 
     if (this.state.submitted) {
       return (
         <div className="each-node">
-          <p onClick={this.makeNodeEditable}>{ node }</p>
+          <p onClick={this.makeNodeEditable}>
+            { type === 'folder' && <i className="fas fa-folder"></i> }
+            { type === 'file' && <i className="far fa-file"></i> }
+            { node }
+          </p>
+          {/*
           <button onClick={() => addNode(nodePath, this.editingNode)}>+</button>
           <button onClick={() => deleteNode(nodePath)}>❌</button>
+          */}
         </div>
       );
     }

@@ -5,16 +5,19 @@
 }
 
 body {
-    font-family: 'Righteous', cursive;
     background-color: $floral-white;
     padding: 50px;
     border-top: 10px solid $brown;
+    position: relative;
+    font-family: 'Inconsolata', monospace;
 
-    // temporary
-    height: 100vh;
+    pre {
+        font-family: inherit;
+    }
 }
 
 header {
+    font-family: 'Righteous', cursive;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -24,33 +27,67 @@ header {
         color: $brown;
         font-size: 50px;
         font-weight: 300;
-        // width: 80%;
     }
 }
 
 .main-subheading {
+    font-family: 'Righteous', cursive;
     color: black;
     font-size: 18px;
     font-weight: 100;
-    color: $purple;
+    color: $text-color;
 }
 
 .ui-tree {
+    font-size: 16px;
+    margin-top: 40px;
     white-space: pre-line;
-    width: 50%;
+    color: $purple;
+    display: flex;
+    justify-content: space-between;
 }
 
-.each-subtree {
-    margin-left: 10px;
+.directory-tree {
+    .each-subtree {
+        &:first-child {
+            margin-left: 0;
+        }
+        margin-left: 20px;
 
-    button {
-        margin-left: 5px;
+        button {
+            margin-left: 5px;
+        }
+    }
+
+    .each-node {
+        margin-bottom: 10px;
+        display: block;
+
+        i {
+            margin-right: 5px;
+            color: $purple;
+        }
+        p {
+            color: $text-color;
+            font-weight: normal;
+            display: inline-block;
+        }
     }
 }
 
-.each-node {
-    display: block;
-    p {
-        display: inline-block;
+.markdown-tree {
+    padding: 40px;
+    background: rgba($brown, 0.1);
+    border-radius: 2px;
+    color: $purple;
+}
+
+footer {
+    position: absolute;
+    bottom: -100px;
+    font-size: 10px;
+    color: gray;
+    a {
+        color: inherit;
     }
 }

@@ -6,7 +6,7 @@ function MarkdownTree({ tree }) {
   const markdown = treeify.asTree(tree['.']);
 
   return (
-    <pre>
+    <pre className="markdown-tree">
       { markdown }
     </pre>
   );
