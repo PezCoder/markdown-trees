@@ -14,6 +14,7 @@ const App = function() {
         <img src={ treeSvg } height="50" />
         <img src={ treeSvg } height="50" />
       </header>
+      <h2 className="main-subheading">Create github markdown trees with ease</h2>
       { /*
       <section className="ui-tree">
         <DirectoryTreeContainer />

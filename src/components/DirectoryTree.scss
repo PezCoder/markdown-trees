@@ -26,10 +26,13 @@ header {
         font-weight: 300;
         // width: 80%;
     }
+}
 
-    img {
-        float: right;
-    }
+.main-subheading {
+    color: black;
+    font-size: 18px;
+    font-weight: 100;
+    color: $purple;
 }
 
 .ui-tree {
