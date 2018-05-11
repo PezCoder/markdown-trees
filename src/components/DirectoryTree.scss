@@ -66,16 +66,48 @@ header {
         i {
             margin-right: 5px;
             color: $purple;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
+
         p {
             color: $text-color;
             font-weight: normal;
             display: inline-block;
+            margin-right: 5px;
+            font-size: 16px;
+        }
+
+        form {
+            display: inline-block;
+        }
+
+        input {
+            width: 100%;
+            font-family: inherit;
+            border: none;
+            background: transparent;
+            font-size: 16px;
+            outline: 0;
+        }
+
+        .plus-icon {
+            color: rgba($brown, 0.2);
+            &:hover {
+                color: $brown;
+            }
+        }
+        .cross-icon {
+            color: rgba(red, 0.2);
+            &:hover {
+                color: rgba(red, 0.8);
+            }
         }
     }
 }
 
 .markdown-tree {
+    min-width: 400px;
     padding: 40px;
     background: rgba($brown, 0.1);
     border-radius: 2px;

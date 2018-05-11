@@ -27,6 +27,14 @@ class Node extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
 
+    // if node name hasn't changed
+    if (this.props.node === this.state.name) {
+      this.setState({
+        submitted: true,
+      });
+      return;
+    }
+
     this.props.renameNode(this.props.nodePath, this.state.name);
   }
 
@@ -39,28 +47,21 @@ class Node extends React.Component {
   render() {
     const { nodePath, node, addNode, deleteNode, type } = this.props;
 
-    if (this.state.submitted) {
-      return (
-        <div className="each-node">
-          <p onClick={this.makeNodeEditable}>
-            { type === 'folder' && <i className="fas fa-folder"></i> }
-            { type === 'file' && <i className="far fa-file"></i> }
-            { node }
-          </p>
-          {/*
-          <button onClick={() => addNode(nodePath, this.editingNode)}>+</button>
-          <button onClick={() => deleteNode(nodePath)}>❌</button>
-          */}
-        </div>
-      );
-    }
-
     return (
-      <div>
+      <div className="each-node">
+        { type === 'folder' && <i className="fas fa-folder"></i> }
+        { type === 'file' && <i className="far fa-file"></i> }
+        { this.state.submitted && <p onClick={this.makeNodeEditable}>{ node }</p> }
         { !this.state.submitted && (
           <form onSubmit={this.handleSubmit}>
-            <input autoFocus type="text" value={this.state.name} onChange={this.handleChange} />
+            <input autoFocus type="text" value={this.state.name} onChange={this.handleChange} onBlur={this.handleSubmit} />
           </form>
+        )}
+        { this.state.submitted && (
+          <React.Fragment>
+            <i className="fas fa-plus plus-icon" onClick={() => addNode(nodePath, this.editingNode)} />
+            <i className="fas fa-times cross-icon" onClick={() => deleteNode(nodePath)} />
+          </React.Fragment>
         )}
       </div>
     );
