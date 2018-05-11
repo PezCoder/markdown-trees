@@ -13,6 +13,7 @@ class Node extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.makeNodeEditable = this.makeNodeEditable.bind(this);
   }
 
   isNodeEditing(node) {
@@ -29,13 +30,19 @@ class Node extends React.Component {
     this.props.renameNode(this.props.nodePath, this.state.name);
   }
 
+  makeNodeEditable() {
+    this.setState({
+      submitted: false,
+    });
+  }
+
   render() {
     const { nodePath, node, addNode, deleteNode } = this.props;
 
     if (this.state.submitted) {
       return (
         <div className="each-node">
-          { node }
+          <p onClick={this.makeNodeEditable}>{ node }</p>
           <button onClick={() => addNode(nodePath, this.editingNode)}>+</button>
           <button onClick={() => deleteNode(nodePath)}>❌</button>
         </div>
