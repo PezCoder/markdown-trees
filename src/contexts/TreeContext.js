@@ -10,12 +10,21 @@ const TreeContext = React.createContext(initialTreeState);
 export class TreeProvider extends React.Component {
   constructor() {
     super();
+
+    this.storageKey = 'markdown_tree';
+    const anySavedTree = JSON.parse(localStorage.getItem(this.storageKey));
+
     this.state = {
-      tree: initialTreeState,
+      tree: anySavedTree || initialTreeState,
       addNode: this.addNode.bind(this),
       renameNode: this.renameNode.bind(this),
       deleteNode: this.deleteNode.bind(this),
     };
+  }
+
+  // Syncing every state update to local storage
+  componentDidUpdate(prevProps, prevState) {
+    localStorage.setItem(this.storageKey, JSON.stringify(this.state.tree));
   }
 
   /*
