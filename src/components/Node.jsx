@@ -45,12 +45,19 @@ class Node extends React.Component {
   }
 
   render() {
-    const { nodePath, node, addNode, deleteNode, type } = this.props;
+    const {
+      nodePath,
+      node,
+      addNode,
+      deleteNode,
+      moveNode,
+      type
+    } = this.props;
 
     return (
       <div className="each-node">
-        { type === 'folder' && <i className="fas fa-folder"></i> }
-        { type === 'file' && <i className="far fa-file"></i> }
+        { type === 'folder' && <i onClick={() => moveNode(nodePath, './ZZZ')} className="fas fa-folder"></i> }
+        { type === 'file' && <i onClick={() => moveNode(nodePath, './ZZZ')} className="far fa-file"></i> }
         { this.state.submitted && <p onClick={this.makeNodeEditable}>{ node }</p> }
         { !this.state.submitted && (
           <form onSubmit={this.handleSubmit}>
@@ -70,8 +77,8 @@ class Node extends React.Component {
 
 export default props => (
   <TreeContext.Consumer>
-    {({ addNode, renameNode, deleteNode }) => (
-      <Node {...props} addNode={addNode} renameNode={renameNode} deleteNode={deleteNode} />
+    {({ addNode, renameNode, deleteNode, moveNode }) => (
+      <Node {...props} addNode={addNode} renameNode={renameNode} deleteNode={deleteNode} moveNode={moveNode} />
     )}
   </TreeContext.Consumer>
 );

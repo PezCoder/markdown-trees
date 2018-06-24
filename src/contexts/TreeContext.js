@@ -19,6 +19,7 @@ export class TreeProvider extends React.Component {
       addNode: this.addNode.bind(this),
       renameNode: this.renameNode.bind(this),
       deleteNode: this.deleteNode.bind(this),
+      moveNode: this.moveNode.bind(this),
     };
   }
 
@@ -40,10 +41,10 @@ export class TreeProvider extends React.Component {
     pathToAdd: 'parent' represents node needs to be added under parent object
     pathToAdd: 'parent/child' represents node needs to be added under parent[child] object
   */
-  addNode(pathToAdd, node) {
+  addNode(pathToAdd, nodeName, nodeVal, cb) {
     const treeWithNewNode = this.recurseThroughPath(pathToAdd, lastNode => ({
       [lastNode]: {
-        [node]: null,
+        [nodeName]: nodeVal || null,
       },
     }));
 
@@ -71,7 +72,7 @@ export class TreeProvider extends React.Component {
     */
     this.setState({
       'tree': deepmerge(this.state.tree, treeWithNewNode),
-    });
+    }, cb);
   }
 
   /*
@@ -129,6 +130,24 @@ export class TreeProvider extends React.Component {
 
     this.setState({
       'tree': treeWithDeletedNode,
+    });
+  }
+
+  moveNode(pathFrom, pathTo) {
+    let nodeVal = null;
+    let nodeName;
+    // Recurse to find the val & name of the node to move
+    this.recurseThroughTree(
+      this.state.tree,
+      pathFrom,
+      ( treeNode, lastNode ) => {
+        nodeName  = lastNode;
+        nodeVal = treeNode;
+      }
+    );
+
+    this.addNode(pathTo, nodeName, nodeVal, () => {
+      this.deleteNode(pathFrom);
     });
   }
 
