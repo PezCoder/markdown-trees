@@ -1,6 +1,6 @@
 import React from 'react';
 import deepmerge from 'deepmerge';
-import { unset, cloneDeep } from 'lodash';
+import { unset, cloneDeep, set, get } from 'lodash';
 
 const initialTreeState = {
   '.': null,
@@ -130,6 +130,19 @@ export class TreeProvider extends React.Component {
     const treeWithDeletedNode = cloneDeep(this.state.tree);
     unset(treeWithDeletedNode, pathToDelete.split('/'));
 
+    // When creating a child inside a parent it's modified to be an object
+    // When a child is deleted & parent ends up having no child, it remains
+    // as an empty object.
+    // While null is a correct representation for a parent with no child
+    // Note: this is being used to decide whether to show folder or file icon
+    const parentPathArr = pathToDelete.split('/')
+    parentPathArr.pop();
+    const parentObject = get(treeWithDeletedNode, parentPathArr);
+    const isParentEmptyObject = Object.keys(parentObject).length === 0;
+    if (isParentEmptyObject) {
+      set(treeWithDeletedNode, parentPathArr, null);
+    }
+
     this.setState({
       'tree': treeWithDeletedNode,
     });
@@ -148,7 +161,7 @@ export class TreeProvider extends React.Component {
 
     // pathFrom: ./Component/parent/child
     // pathTo:   ./Component/parent
-    const isMyParent = pathFrom.substring(0, pathFrom.lastIndexOf('/'));
+    const isMyParent = pathTo === pathFrom.substring(0, pathFrom.lastIndexOf('/'));
     if (isMyParent) {
       return;
     }
