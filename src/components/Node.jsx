@@ -1,5 +1,6 @@
 import React from 'react';
 import TreeContext from '../contexts/TreeContext.js';
+import classNames from 'classnames';
 
 class Node extends React.Component {
   constructor(props) {
@@ -51,11 +52,19 @@ class Node extends React.Component {
       addNode,
       deleteNode,
       moveNode,
+      initiateMoveNode,
+      moveNodePath,
       type
     } = this.props;
 
+    const eachNodeClass = classNames(
+      {
+        'each-node': true,
+        'moving': moveNodePath === nodePath,
+      }
+    );
     return (
-      <div className="each-node">
+      <div className={eachNodeClass}>
         { type === 'folder' && <i onClick={() => moveNode(nodePath, './ZZZ')} className="fas fa-folder"></i> }
         { type === 'file' && <i onClick={() => moveNode(nodePath, './ZZZ')} className="far fa-file"></i> }
         { this.state.submitted && <p onClick={this.makeNodeEditable}>{ node }</p> }
@@ -64,11 +73,15 @@ class Node extends React.Component {
             <input autoFocus type="text" value={this.state.name} onChange={this.handleChange} onBlur={this.handleSubmit} />
           </form>
         )}
-        { this.state.submitted && (
+        { this.state.submitted && !moveNodePath && (
           <React.Fragment>
             <i className="fas fa-plus plus-icon" onClick={() => addNode(nodePath, this.editingNode)} />
             <i className="fas fa-times cross-icon" onClick={() => deleteNode(nodePath)} />
+            <i className="fas fa-arrows-alt icon-move" onClick={() => initiateMoveNode(nodePath)} />
           </React.Fragment>
+        )}
+        { moveNodePath && moveNodePath !== nodePath && (
+          <i className="fas fa-arrow-left icon-move" onClick={() => moveNode(moveNodePath, nodePath)} />
         )}
       </div>
     );
@@ -77,8 +90,8 @@ class Node extends React.Component {
 
 export default props => (
   <TreeContext.Consumer>
-    {({ addNode, renameNode, deleteNode, moveNode }) => (
-      <Node {...props} addNode={addNode} renameNode={renameNode} deleteNode={deleteNode} moveNode={moveNode} />
+    {({ addNode, renameNode, deleteNode, moveNode, initiateMoveNode, moveNodePath }) => (
+      <Node {...props} addNode={addNode} renameNode={renameNode} deleteNode={deleteNode} moveNode={moveNode} initiateMoveNode={initiateMoveNode} moveNodePath={moveNodePath} />
     )}
   </TreeContext.Consumer>
 );

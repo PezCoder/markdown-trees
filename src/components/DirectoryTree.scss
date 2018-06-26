@@ -59,6 +59,14 @@ header {
         }
     }
 
+    .each-node.moving {
+        &, & + .each-subtree {
+            pointer-events: none;
+            opacity: 0.5;
+            border: 1px dashed $brown;
+        }
+    }
+
     .each-node {
         margin-bottom: 10px;
         display: block;
@@ -101,6 +109,12 @@ header {
             color: rgba(red, 0.2);
             &:hover {
                 color: rgba(red, 0.8);
+            }
+        }
+        .icon-move {
+            color: rgba($purple, 0.2);
+            &:hover {
+                color: rgba($purple, 0.8);
             }
         }
     }

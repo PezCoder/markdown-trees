@@ -19,6 +19,8 @@ export class TreeProvider extends React.Component {
       addNode: this.addNode.bind(this),
       renameNode: this.renameNode.bind(this),
       deleteNode: this.deleteNode.bind(this),
+      moveNodePath: null,
+      initiateMoveNode: this.initiateMoveNode.bind(this),
       moveNode: this.moveNode.bind(this),
     };
   }
@@ -133,7 +135,24 @@ export class TreeProvider extends React.Component {
     });
   }
 
+  initiateMoveNode(nodePath) {
+    this.setState({
+      moveNodePath: nodePath,
+    });
+  }
+
   moveNode(pathFrom, pathTo) {
+    this.setState({
+      'moveNodePath': null,
+    });
+
+    // pathFrom: ./Component/parent/child
+    // pathTo:   ./Component/parent
+    const isMyParent = pathFrom.substring(0, pathFrom.lastIndexOf('/'));
+    if (isMyParent) {
+      return;
+    }
+
     let nodeVal = null;
     let nodeName;
     // Recurse to find the val & name of the node to move
