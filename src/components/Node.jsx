@@ -65,8 +65,8 @@ class Node extends React.Component {
     );
     return (
       <div className={eachNodeClass}>
-        { type === 'folder' && <i onClick={() => moveNode(nodePath, './ZZZ')} className="fas fa-folder"></i> }
-        { type === 'file' && <i onClick={() => moveNode(nodePath, './ZZZ')} className="far fa-file"></i> }
+        { type === 'folder' && <i className="fas fa-folder"></i> }
+        { type === 'file' && <i className="far fa-file"></i> }
         { this.state.submitted && <p onClick={this.makeNodeEditable}>{ node }</p> }
         { !this.state.submitted && (
           <form onSubmit={this.handleSubmit}>
@@ -80,7 +80,7 @@ class Node extends React.Component {
             <i className="fas fa-arrows-alt icon-move" onClick={() => initiateMoveNode(nodePath)} />
           </React.Fragment>
         )}
-        { moveNodePath && moveNodePath !== nodePath && (
+        { moveNodePath && nodePath.indexOf(moveNodePath) === -1 && (
           <i className="fas fa-arrow-left icon-move" onClick={() => moveNode(moveNodePath, nodePath)} />
         )}
       </div>
