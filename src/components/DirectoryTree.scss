@@ -63,12 +63,11 @@ header {
         &, & + .each-subtree {
             pointer-events: none;
             opacity: 0.5;
-            border: 1px dashed $brown;
         }
     }
 
     .each-node {
-        margin-bottom: 10px;
+        padding: 5px 0;
         display: block;
 
         i {

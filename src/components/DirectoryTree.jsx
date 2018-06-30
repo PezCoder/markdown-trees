@@ -16,10 +16,10 @@ class DirectoryTree extends React.Component {
         );
       } else if (typeof tree[node] === "object") {
         composedTree.push(
-          <React.Fragment key={nodeKey}>
+          <div className="each-node-subtree" key={nodeKey}>
             <Node key={nodeKey} nodePath={nodeKey} node={node} type="folder" />
             <DirectoryTree {...this.props} tree={tree[node]} parentKey={nodeKey} />
-          </React.Fragment>
+          </div>
         );
       } else {
         throw new Error('tree node must either be null or an object {}');
