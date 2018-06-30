@@ -15,6 +15,7 @@ class Node extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.makeNodeEditable = this.makeNodeEditable.bind(this);
+    this.handleMoveNode = this.handleMoveNode.bind(this);
   }
 
   isNodeEditing(node) {
@@ -43,6 +44,35 @@ class Node extends React.Component {
     this.setState({
       submitted: false,
     });
+  }
+
+  /*
+   * Initiate the moving process & cancel it if
+   * 1. Esc is pressed
+   * 2. Clicks anything other than the arrow to finish the move
+   */
+  handleMoveNode() {
+    const cancelMove = this.props.initiateMoveNode(this.props.nodePath);
+    const handler = event => {
+      switch (event.type) {
+        case 'keydown':
+          if (event.key === 'Escape') {
+            cancelMove();
+          }
+          break;
+
+        case 'click':
+          if (!event.target.classList.contains('icon-move')) {
+            cancelMove();
+          }
+          break;
+      }
+
+      document.removeEventListener('click', handler);
+      document.removeEventListener('keydown', handler);
+    };
+    document.addEventListener('click', handler);
+    document.addEventListener('keydown', handler);
   }
 
   render() {
@@ -77,7 +107,7 @@ class Node extends React.Component {
           <React.Fragment>
             <i className="fas fa-plus plus-icon" onClick={() => addNode(nodePath, this.editingNode)} />
             <i className="fas fa-times cross-icon" onClick={() => deleteNode(nodePath)} />
-            <i className="fas fa-arrows-alt icon-move" onClick={() => initiateMoveNode(nodePath)} />
+            <i className="fas fa-arrows-alt icon-move" onClick={this.handleMoveNode} />
           </React.Fragment>
         )}
         { moveNodePath && nodePath.indexOf(moveNodePath) === -1 && (

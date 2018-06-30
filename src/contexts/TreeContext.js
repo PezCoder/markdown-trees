@@ -152,6 +152,12 @@ export class TreeProvider extends React.Component {
     this.setState({
       moveNodePath: nodePath,
     });
+
+    return () => {
+      this.setState({
+        moveNodePath: '',
+      });
+    }
   }
 
   moveNode(pathFrom, pathTo) {
