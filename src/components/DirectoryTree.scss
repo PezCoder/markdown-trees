@@ -122,9 +122,30 @@ header {
 .markdown-tree {
     min-width: 400px;
     padding: 40px;
-    background: rgba($brown, 0.1);
+    background: $dark-floral-white;
     border-radius: 2px;
     color: $purple;
+    position: relative;
+
+    button {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 100px;
+        background: $brown;
+        border-radius: 0 2px 0 0;
+        color: $dark-floral-white;
+        outline: 0;
+        border: 0;
+        padding: 10px 20px;
+        box-shadow: -1px 1px 2px #4e3113;
+        cursor: pointer;
+        transition: all 0.3s ease;
+
+        &:active {
+            box-shadow: unset;
+        }
+    }
 }
 
 footer {
