@@ -1,0 +1,120 @@
+* {
+  margin: 0;
+  padding: 0; }
+
+body {
+  background-color: #FFF8F0;
+  padding: 50px;
+  border-top: 10px solid #9A4D01;
+  position: relative;
+  font-family: 'Inconsolata', monospace; }
+  body pre {
+    font-family: inherit; }
+
+header {
+  font-family: 'Righteous', cursive;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: left; }
+  header .main-heading {
+    color: #9A4D01;
+    font-size: 50px;
+    font-weight: 300; }
+
+.main-subheading {
+  font-family: 'Righteous', cursive;
+  color: black;
+  font-size: 18px;
+  font-weight: 100;
+  color: #363D41; }
+
+.ui-tree {
+  font-size: 16px;
+  margin-top: 40px;
+  white-space: pre-line;
+  color: #51355A;
+  display: flex;
+  justify-content: space-between; }
+
+.directory-tree .each-subtree {
+  margin-left: 20px; }
+  .directory-tree .each-subtree:first-child {
+    margin-left: 0; }
+  .directory-tree .each-subtree button {
+    margin-left: 5px; }
+
+.directory-tree .each-node.moving, .directory-tree .each-node.moving + .each-subtree {
+  pointer-events: none;
+  opacity: 0.5; }
+
+.directory-tree .each-node {
+  padding: 5px 0;
+  display: block; }
+  .directory-tree .each-node i {
+    margin-right: 5px;
+    color: #51355A;
+    cursor: pointer;
+    transition: all 0.3s ease; }
+  .directory-tree .each-node p {
+    color: #363D41;
+    font-weight: normal;
+    display: inline-block;
+    margin-right: 5px;
+    font-size: 16px; }
+  .directory-tree .each-node form {
+    display: inline-block; }
+  .directory-tree .each-node input {
+    width: 100%;
+    font-family: inherit;
+    border: none;
+    background: transparent;
+    font-size: 16px;
+    outline: 0; }
+  .directory-tree .each-node .plus-icon {
+    color: rgba(154, 77, 1, 0.2); }
+    .directory-tree .each-node .plus-icon:hover {
+      color: #9A4D01; }
+  .directory-tree .each-node .cross-icon {
+    color: rgba(255, 0, 0, 0.2); }
+    .directory-tree .each-node .cross-icon:hover {
+      color: rgba(255, 0, 0, 0.8); }
+  .directory-tree .each-node .icon-move {
+    color: rgba(81, 53, 90, 0.2); }
+    .directory-tree .each-node .icon-move:hover {
+      color: rgba(81, 53, 90, 0.8); }
+
+.markdown-tree {
+  min-width: 400px;
+  padding: 40px;
+  background: #f4e7d9;
+  border-radius: 2px;
+  color: #51355A;
+  position: relative; }
+  .markdown-tree button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100px;
+    background: #9A4D01;
+    border-radius: 0 2px 0 0;
+    color: #f4e7d9;
+    outline: 0;
+    border: 0;
+    padding: 10px 20px;
+    box-shadow: -1px 1px 2px #4e3113;
+    cursor: pointer;
+    transition: all 0.3s ease; }
+    .markdown-tree button:active {
+      box-shadow: unset; }
+
+footer {
+  position: absolute;
+  bottom: -100px;
+  font-size: 10px;
+  color: gray; }
+  footer a {
+    color: inherit; }
+
+
+/*# sourceMappingURL=/App.142a38db.css.map */
