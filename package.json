@@ -5,9 +5,9 @@
   "homepage": "http://pezcoder.github.io/markdown-trees",
   "scripts": {
     "start": "parcel ./src/index.html",
-    "build": "parcel build ./src/index.html",
+    "build": "parcel build ./src/index.html --public-url ./",
     "predeploy": "npm run build",
-    "deploy": "gh-page -d build"
+    "deploy": "gh-pages -d dist"
   },
   "repository": {
     "type": "git",
